@@ -1,0 +1,441 @@
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+  - custom_ssl_theme.yml
+  
+features:
+   navbar-brand: Green_Logo_-_Circle_Cropped.png
+---
+metadata:
+  title: |
+    Maine Warranty of Habitability Notice
+  short title: |
+    Maine Warranty of Habitability Notice
+  authors:
+    - Nicole Golden-Bouchard
+---
+mandatory: True
+comment: |
+  Global interview metadata
+variable name: interview_metadata["warranty_of_habitability_notice"]
+data:
+  al_weaver_version: "1.7.0"
+  generated on: "2023-03-21"
+  title: >-
+    Maine warranty of habitability notice
+  short title: >-
+    Maine warranty of habitability notice
+  description: |-
+    Maine warranty of habitability notice
+  original_form: >-
+    https://pinetreelegal-my.sharepoint.com/:b:/r/personal/bouchardn_ptla_org/Documents/DocAssemble/Maine%20Warranty%20of%20Habitability%20Notice.pdf?csf=1&web=1&e=limfAY
+  allowed courts: []
+  categories: []
+  typical role: "tenant"
+  generate download screen: True
+---
+code: |
+  interview_metadata['main_interview_key'] =  'warranty_of_habitability_notice'
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "ME"
+---
+code: |
+  github_repo_name =  'docassemble-WarrantyOfHabitabilityNotice'
+---
+code: |
+  interview_short_title = "Write a Maine warranty of habitability notice letter"
+---
+code: |
+  al_form_type = "letter" 
+---
+objects:
+  - other_parties: ALPeopleList.using(there_are_any=True)
+  - users: ALPeopleList.using(there_are_any=True)
+---
+sections:
+  - review_warranty_of_habitability_notice: Review your answers
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_warranty_of_habitability_notice
+code: |
+  # Set the allowed courts for this interview
+  allowed_courts = interview_metadata["warranty_of_habitability_notice"]["allowed courts"]
+  nav.set_section('review_warranty_of_habitability_notice')
+  user_role = 'tenant'
+  Issues_with_the_Rental_Unit
+  check_box1_heat
+  check_box2_leaking_ceilings
+  set_progress(14)
+  check_box3_hot_water
+  check_box4_water
+  check_box5_air_quality
+  set_progress(28)
+  check_box6_wiring
+  check_box7_sewage
+  check_box8_other
+  set_progress(42)
+  if check_box8_other == True:
+    other_descrip
+  detail_complaint
+  other_parties.gather()
+  users.gather()
+  set_parts(subtitle=str(users))
+  set_progress(57)
+  users[0].address.address
+  signature_date
+  interview_order_warranty_of_habitability_notice = True
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  warranty_of_habitability_notice_intro
+  interview_order_warranty_of_habitability_notice
+  if check_box8_other == 'yes':
+    other_discrip
+  signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  warranty_of_habitability_notice_preview_question
+  basic_questions_signature_flow    
+  users[0].signature
+  warranty_of_habitability_notice_download
+---
+comment: |
+  This question is used to introduce your interview. Please customize
+id: Maine_warranty_of_habitability_notice
+continue button field: warranty_of_habitability_notice_intro
+question: |
+  Maine warranty of habitability notice
+subquestion: |
+  This interview will help you create a letter to your landlord that states you have significant problems with your rental unit that need to be fixed. The interview will ask specific questions about:
+  
+  - You 
+      - Your name 
+      - Your address    
+  - Your landlord
+      - Their name(s)
+      - Thier address(es) 
+  - The significant problems you have with the apartment. 
+  
+  Once you complete and sign your name, you will get a screen that allows you to view and download instructions on what to do next and to view and download the letter itself. 
+  
+  Thank you. We hope this interview is helpful. 
+  
+---
+id: Issues with the Rental Unit
+question: |
+  Issues with the Rental Unit
+subquestion: |
+  The following questions will ask if there are specific issues with the rental unit. These questions are yes and no questions. You will have a chance to describe the specific issue in detail later.
+continue button field: Issues_with_the_Rental_Unit
+
+---
+id: Issues with the Rental Unit
+question: |
+  Issues with the Rental Unit
+subquestion: |
+  Does the rental unit have issues with inadequate heat?
+yesno: check_box1_heat
+
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+  Does the rental unit have issues with leaking ceilings?
+yesno: check_box2_leaking_ceilings
+
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+  Does the rental unit have issues with its hot water?
+yesno: check_box3_hot_water
+
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+  Does the rental unit have issues with unfit drinking water?
+yesno: check_box4_water
+
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+  Does the rental unit have issues with poor air quality?
+yesno: check_box5_air_quality
+
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+  Does the rental unit have issues with unsafe electrical wiring?
+yesno: check_box6_wiring
+
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+  Does the rental unit have issues with its sewage system or is the unit without a working toilet?
+yesno: check_box7_sewage
+
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+  Does the rental unit have any other physical issues that make it unsafe or unlivable? 
+
+  NOTE: This question does not include unsafe people. This is only asking about the rental unit itself.
+yesno: check_box8_other 
+ 
+---
+id: Issue with the Rental Unit
+question: |
+  Issue with the Rental Unit
+subquestion: |
+fields:
+  - "Description of Other physical issues": other_descrip
+    maxlength: 24
+
+---
+id: Description of Issues
+question: |
+  Description of Issues
+subquestion: |
+  Please briefly describe the issues you stated the rental unit has. 
+  
+  Example: "The rental unit has not had heat for a week. The furnace is broken and has not been repaired despite my request."
+fields:
+  - "Description of the issues": detail_complaint
+    input type: area
+    maxlength: 312
+
+---
+sets:
+  - other_parties[i].name.first
+  - other_parties[i].name.last
+  - other_parties[i].name.middle
+  - other_parties[i].name.suffix
+id: names of landlord or owner
+question: |
+  The **landlord** or owner of your rental unit
+fields:
+  - code: |
+      other_parties[i].name_fields(person_or_business='unsure')
+
+# ${ ordinal(i) } #
+---
+id: any other Landlord or Owner
+question: |
+  Is there another **landlord** or owner of your rental unit?
+  
+fields:
+  - no label: other_parties.there_is_another
+    datatype: yesnoradio
+
+---
+id: preview warranty_of_habitability_notice
+question: |
+  Preview your form before you sign it
+subquestion: |
+  Here is a preview of the form you will sign on the next page.   
+  
+  ${ al_recipient_bundle.as_pdf(key='preview') }
+
+  Click the image to open it in a new tab. Click the "Edit answers" button
+  if you need to edit your answers. If you don't need to edit anything, click the "Next" button.
+
+  ${ action_button_html(url_action('review_warranty_of_habitability_notice'), label='Edit answers', color='info') }
+  
+  Remember that if you need to edit, you will need to come back to this window to continue and sign your form.
+continue button field: warranty_of_habitability_notice_preview_question    
+---
+code: |
+  signature_fields = ['users[0].signature']
+---
+id: warranty of habitability notice review screen
+event: review_warranty_of_habitability_notice
+question: |
+  Review your answers
+review:
+  - Edit: other_parties.revisit
+    button: |
+      **Other parties**
+
+      % for item in other_parties:
+        * ${ item }
+      % endfor
+  - Edit: users.revisit
+    button: |
+      **Users**
+
+      % for item in users:
+        * ${ item }
+      % endfor
+  - Edit: check_box1_heat
+    button: |
+      **Inadequate Heat/Faulty Heat System**:
+      ${ word(yesno(check_box1_heat)) }
+  - Edit: check_box2_leaking_ceilings
+    button: |
+      **Leaking Ceilings**:
+      ${ word(yesno(check_box2_leaking_ceilings)) }
+  - Edit: check_box3_hot_water
+    button: |
+      **Inadequate Hot Water**:
+      ${ word(yesno(check_box3_hot_water)) }
+  - Edit: check_box4_water
+    button: |
+      **Unfit Drinking Water**:
+      ${ word(yesno(check_box4_water)) }
+  - Edit: check_box5_air_quality
+    button: |
+      **Poor Air Quality**:
+      ${ word(yesno(check_box5_air_quality)) }
+  - Edit: check_box6_wiring
+    button: |
+      **Unsafe Electrical Wiring**:
+      ${ word(yesno(check_box6_wiring)) }
+  - Edit: other_descrip
+    button: |
+      **Description of Other**:
+      ${ other_descrip }
+  - Edit: check_box7_sewage
+    button: |
+      **Malfunctioning Sewage System**:
+      ${ word(yesno(check_box7_sewage)) }
+  - Edit: check_box8_other
+    button: |
+      **Other**:
+      ${ word(yesno(check_box8_other)) }
+  - Edit: detail_complaint
+    button: |
+      **Description of the issues**:
+      > ${ single_paragraph(detail_complaint) }
+  - Edit: signature_date
+    button: |
+      **Date of signature**:
+      ${ signature_date }
+---
+continue button field: other_parties.revisit
+question: |
+  Edit other_parties
+subquestion: |
+  ${ other_parties.table }
+
+  ${ other_parties.add_action() }
+---
+table: other_parties.table
+rows: other_parties
+columns:
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+edit:
+  - name.first
+confirm: True
+
+---
+continue button field: users.revisit
+question: |
+  Edit users
+subquestion: |
+  ${ users.table }
+
+  ${ users.add_action() }
+---
+table: users.table
+rows: users
+columns:
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+  - Address: |
+      row_item.address.block() if defined("row_item.address.address") else ""
+  - Signature: |
+      row_item.signature if defined("row_item.signature") else ""
+edit:
+  - name.first
+  - address.address
+  - signature
+confirm: True
+
+---
+id: download warranty_of_habitability_notice
+event: warranty_of_habitability_notice_download
+question: |
+  All done
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+  
+  View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_warranty_of_habitability_notice'), label='Edit answers', color='info') }
+  
+  
+  ${ al_user_bundle.download_list_html() }
+  
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
+
+progress: 100
+---
+objects:
+  - warranty_of_habitability_notice_post_interview_instructions: ALDocument.using(title="Instructions", filename="warranty_of_habitability_notice_next_steps.docx", enabled=True, has_addendum=False, default_overflow_message=AL_DEFAULT_OVERFLOW_MESSAGE)
+  - warranty_of_habitability_notice_attachment: ALDocument.using(title="Maine warranty of habitability notice", filename="warranty_of_habitability_notice.pdf", enabled=True, has_addendum=False, default_overflow_message=AL_DEFAULT_OVERFLOW_MESSAGE)
+---
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[warranty_of_habitability_notice_post_interview_instructions,warranty_of_habitability_notice_attachment], filename="warranty_of_habitability_notice.pdf_package.pdf", title="All forms to download for your records", enabled=True)
+  - al_recipient_bundle: ALDocumentBundle.using(elements=[warranty_of_habitability_notice_attachment], filename="warranty_of_habitability_notice.pdf_package.pdf", title="All forms to download for your records", enabled=True)
+---
+attachments:
+  - name: warranty of habitability notice post interview instructions
+    filename: Post-interview-instructions     
+    variable name: warranty_of_habitability_notice_post_interview_instructions[i]        
+    skip undefined: True
+    docx template file: warranty_of_habitability_notice_next_steps.docx
+  - name: warranty of habitability notice attachment
+    filename: warranty_of_habitability_notice.pdf     
+    variable name: warranty_of_habitability_notice_attachment[i]        
+    skip undefined: True
+    pdf template file: warranty_of_habitability_notice.pdf
+    fields:
+      - "Landlord": ${ other_parties }
+      - "users1_name": ${ users[0] }
+      - "users1_address_on_one_line": ${ users[0].address.on_one_line() }
+      - "check_box1_heat": ${ check_box1_heat }
+      - "check_box2_leaking_ceilings": ${ check_box2_leaking_ceilings }
+      - "check_box3_hot_water": ${ check_box3_hot_water }
+      - "check_box4_water": ${ check_box4_water }
+      - "check_box5_air_quality": ${ check_box5_air_quality }
+      - "check_box6_wiring": ${ check_box6_wiring }
+      - "other_descrip": ${ other_descrip }
+      - "check_box7_sewage": ${ check_box7_sewage }
+      - "check_box8_other": ${ check_box8_other }
+      - "detail_complaint": ${ detail_complaint }
+      - "signature_date": ${ signature_date }
+      - "users1_signature": ${ users[0].signature_if_final(i) }
+
